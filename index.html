@@ -1,0 +1,1933 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SMART QUIZ SMP 19 PALEMBANG - Media Pembelajaran Interaktif</title>
+  
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              purple: '#46178f',
+              dark: '#320f66',
+              light: '#5f24b8',
+              red: '#e21b3c',
+              blue: '#1368ce',
+              yellow: '#ffa602',
+              green: '#26890c'
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Canvas Confetti for Podium celebration -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <!-- Custom App Styles -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col selection:bg-purple-200">
+
+  <!-- ================= TOP NAVIGATION BAR ================= -->
+  <header class="no-print sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-slate-200 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      
+      <!-- School Identity & Brand Logo -->
+      <div class="flex items-center space-x-3 cursor-pointer" onclick="app.showScreen('screen-home')">
+        <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-brand-purple to-indigo-600 flex items-center justify-center text-white shadow-md shadow-purple-500/20 ring-2 ring-purple-100">
+          <span class="text-xl font-black">19</span>
+        </div>
+        <div>
+          <div class="flex items-center space-x-2">
+            <span class="font-extrabold text-base sm:text-lg tracking-tight text-brand-dark">SMART QUIZ</span>
+            <span class="hidden sm:inline-block px-2 py-0.5 text-[11px] font-bold rounded-full bg-purple-100 text-brand-purple">SMPN 19</span>
+          </div>
+          <p class="text-[11px] text-slate-500 font-medium hidden sm:block">SMP NEGERI 19 PALEMBANG</p>
+        </div>
+      </div>
+
+      <!-- Quick Action Buttons -->
+      <div class="flex items-center space-x-1.5 sm:space-x-3">
+        <button onclick="app.showScreen('screen-home')" class="px-3 py-2 text-xs sm:text-sm font-semibold text-slate-700 hover:text-brand-purple rounded-lg hover:bg-slate-100 transition" title="Beranda">
+          🏠 <span class="hidden md:inline">Beranda</span>
+        </button>
+
+        <button onclick="app.startDemoQuiz()" class="px-3 py-2 text-xs sm:text-sm font-bold text-amber-700 bg-amber-50 hover:bg-amber-100 rounded-lg transition border border-amber-200" title="Mainkan Kuis Demo">
+          ⚡ <span class="hidden sm:inline">Main Demo</span>
+        </button>
+
+        <button onclick="app.showScreen('screen-student-join')" class="px-3.5 py-2 text-xs sm:text-sm font-bold text-white bg-brand-blue hover:bg-blue-700 rounded-lg shadow-sm transition active:scale-95">
+          🎮 <span class="hidden sm:inline">Masuk</span> Siswa
+        </button>
+
+        <button onclick="app.openTeacherDashboard()" class="px-3.5 py-2 text-xs sm:text-sm font-bold text-white bg-brand-purple hover:bg-brand-dark rounded-lg shadow-sm transition active:scale-95">
+          🎓 Guru
+        </button>
+
+        <!-- Audio & Settings Toggle -->
+        <div class="border-l border-slate-200 pl-2 ml-1 flex items-center space-x-1">
+          <button id="btn-toggle-sound" onclick="app.toggleSound()" class="p-2 text-slate-600 hover:text-purple-700 hover:bg-purple-50 rounded-lg transition" title="Nyalakan / Matikan Suara" aria-label="Toggle Suara">
+            <span id="sound-icon" class="text-base">🔊</span>
+          </button>
+          <button onclick="app.openHelpModal()" class="p-2 text-slate-600 hover:text-purple-700 hover:bg-purple-50 rounded-lg transition" title="Bantuan & Petunjuk" aria-label="Bantuan">
+            <span class="text-base">❓</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= MAIN CONTENT WRAPPER ================= -->
+  <main class="flex-1 flex flex-col">
+
+    <!-- ======================================================== -->
+    <!-- 1. SCREEN: BERANDA (HOME SCREEN)                        -->
+    <!-- ======================================================== -->
+    <section id="screen-home" class="screen-view active flex-1">
+      
+      <!-- Hero Banner -->
+      <div class="relative overflow-hidden bg-gradient-to-br from-brand-dark via-brand-purple to-indigo-800 text-white py-12 md:py-16 px-4 sm:px-6 lg:px-8">
+        <!-- Background Decorative Orbs -->
+        <div class="absolute -right-20 -top-20 w-96 h-96 rounded-full bg-purple-500/20 blur-3xl pointer-events-none"></div>
+        <div class="absolute -left-20 -bottom-20 w-80 h-80 rounded-full bg-pink-500/20 blur-3xl pointer-events-none"></div>
+
+        <div class="max-w-6xl mx-auto relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          
+          <!-- Text Content -->
+          <div class="lg:col-span-7 space-y-5 text-center lg:text-left">
+            <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur border border-white/20 text-xs font-semibold text-purple-200 tracking-wide">
+              <span>🏛️</span>
+              <span>SMP NEGERI 19 PALEMBANG</span>
+              <span class="text-purple-300">•</span>
+              <span class="text-amber-300">Kurikulum Merdeka Fase D</span>
+            </div>
+
+            <h1 class="text-3xl sm:text-5xl lg:text-5xl font-black tracking-tight leading-tight">
+              SMART QUIZ <br>
+              <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-rose-300 to-pink-300">
+                SMP 19 PALEMBANG
+              </span>
+            </h1>
+
+            <p class="text-lg sm:text-xl font-medium text-purple-100 max-w-xl mx-auto lg:mx-0">
+              “Belajar tidak harus membosankan. Yuk, belajar sambil bermain!”
+            </p>
+
+            <p class="text-sm text-purple-200/90 max-w-lg mx-auto lg:mx-0">
+              Media pembelajaran interaktif lintas mata pelajaran bergaya game kuis modern untuk apersepsi, asesmen formatif, ice breaking, dan kompetisi cerdas siswa.
+            </p>
+
+            <!-- Action Buttons Hero -->
+            <div class="pt-2 flex flex-wrap gap-3 justify-center lg:justify-start">
+              <button onclick="app.showScreen('screen-student-join')" class="px-6 py-3.5 rounded-xl font-bold bg-amber-400 hover:bg-amber-300 text-slate-900 shadow-lg shadow-amber-400/30 transition transform hover:-translate-y-0.5 active:translate-y-0 text-base flex items-center space-x-2">
+                <span>🎮</span>
+                <span>Masuk Sebagai Siswa</span>
+              </button>
+
+              <button onclick="app.openTeacherDashboard()" class="px-6 py-3.5 rounded-xl font-bold bg-white/15 hover:bg-white/25 text-white border border-white/30 backdrop-blur shadow-lg transition transform hover:-translate-y-0.5 active:translate-y-0 text-base flex items-center space-x-2">
+                <span>🎓</span>
+                <span>Masuk Guru / Buat Kuis</span>
+              </button>
+
+              <button onclick="app.startDemoQuiz()" class="px-5 py-3.5 rounded-xl font-semibold bg-indigo-900/60 hover:bg-indigo-900 text-purple-200 border border-purple-400/30 transition text-sm flex items-center space-x-2">
+                <span>⚡</span>
+                <span>Main Demo Mandiri</span>
+              </button>
+            </div>
+
+          </div>
+
+          <!-- Hero Illustration Card -->
+          <div class="lg:col-span-5 flex justify-center">
+            <div class="relative w-full max-w-md bg-white/10 backdrop-blur-md border border-white/20 p-6 rounded-3xl shadow-2xl text-white">
+              
+              <!-- Floating Kahoot Shapes -->
+              <div class="flex justify-between items-center mb-5 pb-4 border-b border-white/10">
+                <div class="flex items-center space-x-2">
+                  <span class="text-2xl">🏆</span>
+                  <div>
+                    <h2 class="font-bold text-sm">Tantangan Cerdas SMP 19</h2>
+                    <p class="text-[11px] text-purple-200">Semua Mapel Kelas VII, VIII, IX</p>
+                  </div>
+                </div>
+                <span class="px-2.5 py-1 text-[11px] font-bold rounded-lg bg-green-500/80 text-white">LIVE</span>
+              </div>
+
+              <!-- Mini Kahoot Answer Grid Preview -->
+              <div class="grid grid-cols-2 gap-2.5 mb-4 text-xs font-bold text-center">
+                <div class="card-kahoot-red p-3 rounded-xl flex items-center justify-center space-x-1.5 shadow">
+                  <span class="shape-triangle"></span>
+                  <span>IPA & Sains</span>
+                </div>
+                <div class="card-kahoot-blue p-3 rounded-xl flex items-center justify-center space-x-1.5 shadow">
+                  <span class="shape-diamond"></span>
+                  <span>Matematika</span>
+                </div>
+                <div class="card-kahoot-yellow p-3 rounded-xl flex items-center justify-center space-x-1.5 shadow text-slate-900">
+                  <span class="shape-circle bg-slate-900"></span>
+                  <span class="text-white">B. Indonesia</span>
+                </div>
+                <div class="card-kahoot-green p-3 rounded-xl flex items-center justify-center space-x-1.5 shadow">
+                  <span class="shape-square"></span>
+                  <span>Informatika</span>
+                </div>
+              </div>
+
+              <div class="bg-black/20 rounded-xl p-3 flex items-center justify-between text-xs">
+                <span class="text-purple-200">6 Mode Game Eksklusif</span>
+                <span class="font-bold text-amber-300">Classic • Team • Race • Survival</span>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Quick Section: Tujuan Pembelajaran & Asesmen -->
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        
+        <div class="text-center max-w-2xl mx-auto mb-8">
+          <h2 class="text-2xl font-black text-slate-800 tracking-tight">12 Fungsi Pembelajaran Terpadu</h2>
+          <p class="text-sm text-slate-500 mt-1">Dirancang khusus untuk mendukung pembelajaran bermakna di SMP Negeri 19 Palembang.</p>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
+          <div class="bg-white p-3.5 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md transition text-center group">
+            <div class="text-2xl mb-1 group-hover:scale-110 transition">🎯</div>
+            <div class="font-bold text-xs text-slate-800">Apersepsi</div>
+            <div class="text-[10px] text-slate-500">Awal Jam Belajar</div>
+          </div>
+          <div class="bg-white p-3.5 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md transition text-center group">
+            <div class="text-2xl mb-1 group-hover:scale-110 transition">🩺</div>
+            <div class="font-bold text-xs text-slate-800">Diagnostik</div>
+            <div class="text-[10px] text-slate-500">Tes Awal Kemampuan</div>
+          </div>
+          <div class="bg-white p-3.5 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md transition text-center group">
+            <div class="text-2xl mb-1 group-hover:scale-110 transition">📊</div>
+            <div class="font-bold text-xs text-slate-800">Formatif</div>
+            <div class="text-[10px] text-slate-500">Monitoring Pemahaman</div>
+          </div>
+          <div class="bg-white p-3.5 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md transition text-center group">
+            <div class="text-2xl mb-1 group-hover:scale-110 transition">📝</div>
+            <div class="font-bold text-xs text-slate-800">Latihan Soal</div>
+            <div class="text-[10px] text-slate-500">Penguatan Konsep</div>
+          </div>
+          <div class="bg-white p-3.5 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md transition text-center group">
+            <div class="text-2xl mb-1 group-hover:scale-110 transition">🔄</div>
+            <div class="font-bold text-xs text-slate-800">Review Materi</div>
+            <div class="text-[10px] text-slate-500">Persiapan Ujian</div>
+          </div>
+          <div class="bg-white p-3.5 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md transition text-center group">
+            <div class="text-2xl mb-1 group-hover:scale-110 transition">📈</div>
+            <div class="font-bold text-xs text-slate-800">Evaluasi</div>
+            <div class="text-[10px] text-slate-500">Asesmen Sumatif</div>
+          </div>
+          <div class="bg-white p-3.5 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md transition text-center group">
+            <div class="text-2xl mb-1 group-hover:scale-110 transition">🕹️</div>
+            <div class="font-bold text-xs text-slate-800">Game Edukasi</div>
+            <div class="text-[10px] text-slate-500">Belajar Menyenangkan</div>
+          </div>
+          <div class="bg-white p-3.5 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md transition text-center group">
+            <div class="text-2xl mb-1 group-hover:scale-110 transition">🤝</div>
+            <div class="font-bold text-xs text-slate-800">Kolaboratif</div>
+            <div class="text-[10px] text-slate-500">Team Battle Kelas</div>
+          </div>
+          <div class="bg-white p-3.5 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md transition text-center group">
+            <div class="text-2xl mb-1 group-hover:scale-110 transition">🩹</div>
+            <div class="font-bold text-xs text-slate-800">Remedial</div>
+            <div class="text-[10px] text-slate-500">Bimbingan Bertahap</div>
+          </div>
+          <div class="bg-white p-3.5 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md transition text-center group">
+            <div class="text-2xl mb-1 group-hover:scale-110 transition">🚀</div>
+            <div class="font-bold text-xs text-slate-800">Pengayaan</div>
+            <div class="text-[10px] text-slate-500">Tantangan HOTS</div>
+          </div>
+          <div class="bg-white p-3.5 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md transition text-center group">
+            <div class="text-2xl mb-1 group-hover:scale-110 transition">🧊</div>
+            <div class="font-bold text-xs text-slate-800">Ice Breaking</div>
+            <div class="text-[10px] text-slate-500">Penyemangat Kelas</div>
+          </div>
+          <div class="bg-white p-3.5 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md transition text-center group">
+            <div class="text-2xl mb-1 group-hover:scale-110 transition">⚔️</div>
+            <div class="font-bold text-xs text-slate-800">Kompetisi</div>
+            <div class="text-[10px] text-slate-500">Turnamen Kelas</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Section: Mata Pelajaran Explorer -->
+      <div class="bg-slate-100/70 border-y border-slate-200 py-10">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+            <div>
+              <h2 class="text-xl sm:text-2xl font-black text-slate-800 tracking-tight">Katalog Mata Pelajaran SMP</h2>
+              <p class="text-xs sm:text-sm text-slate-500">Tersedia untuk seluruh kurikulum, plus guru dapat menambah mata pelajaran kustom!</p>
+            </div>
+            <button onclick="app.openNewSubjectModal()" class="inline-flex items-center space-x-1.5 px-3.5 py-2 text-xs font-bold text-brand-purple bg-white hover:bg-purple-50 rounded-xl border border-purple-200 shadow-sm transition">
+              <span>➕</span>
+              <span>Tambah Mapel Baru</span>
+            </button>
+          </div>
+
+          <div id="home-subject-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
+            <!-- Rendered dynamically by app.js -->
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Section: 6 Mode Permainan Seru -->
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="text-center max-w-2xl mx-auto mb-10">
+          <span class="px-3 py-1 text-xs font-bold rounded-full bg-purple-100 text-brand-purple">RAGAM GAMEPLAY</span>
+          <h2 class="text-2xl sm:text-3xl font-black text-slate-800 tracking-tight mt-2">6 Mode Permainan Adaptif</h2>
+          <p class="text-sm text-slate-500 mt-1">Dapat dipilih sesuai kebutuhan pembelajaran di kelas.</p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          
+          <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm hover:shadow-md transition">
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-3xl">🎮</span>
+              <span class="px-2.5 py-0.5 text-[11px] font-bold rounded-full bg-purple-100 text-purple-700">Mode 1</span>
+            </div>
+            <h3 class="font-bold text-base text-slate-800">Classic Quiz</h3>
+            <p class="text-xs text-slate-500 mt-1">Siswa bermain individu. Poin dihitung dari ketepatan dan kecepatan menjawab.</p>
+          </div>
+
+          <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm hover:shadow-md transition">
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-3xl">⚔️</span>
+              <span class="px-2.5 py-0.5 text-[11px] font-bold rounded-full bg-blue-100 text-blue-700">Mode 2</span>
+            </div>
+            <h3 class="font-bold text-base text-slate-800">Team Battle</h3>
+            <p class="text-xs text-slate-500 mt-1">Siswa dibagi menjadi 4 kelompok (Merah, Biru, Hijau, Kuning). Akumulasi poin tim live!</p>
+          </div>
+
+          <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm hover:shadow-md transition">
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-3xl">🏎️</span>
+              <span class="px-2.5 py-0.5 text-[11px] font-bold rounded-full bg-amber-100 text-amber-700">Mode 3</span>
+            </div>
+            <h3 class="font-bold text-base text-slate-800">Race (Balapan Avatar)</h3>
+            <p class="text-xs text-slate-500 mt-1">Avatar siswa melesat maju di lintasan sirkuit setiap kali menjawab dengan benar.</p>
+          </div>
+
+          <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm hover:shadow-md transition">
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-3xl">❤️</span>
+              <span class="px-2.5 py-0.5 text-[11px] font-bold rounded-full bg-rose-100 text-rose-700">Mode 4</span>
+            </div>
+            <h3 class="font-bold text-base text-slate-800">Survival Mode</h3>
+            <p class="text-xs text-slate-500 mt-1">Siswa dibekali 3 nyawa. Jawaban salah mengurangi 1 nyawa. Uji ketahanan!</p>
+          </div>
+
+          <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm hover:shadow-md transition">
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-3xl">🔥</span>
+              <span class="px-2.5 py-0.5 text-[11px] font-bold rounded-full bg-orange-100 text-orange-700">Mode 5</span>
+            </div>
+            <h3 class="font-bold text-base text-slate-800">Streak Master</h3>
+            <p class="text-xs text-slate-500 mt-1">Jawaban benar berturut-turut memberikan multiplier bonus (+20, +30, +50 poin).</p>
+          </div>
+
+          <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm hover:shadow-md transition">
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-3xl">🧘</span>
+              <span class="px-2.5 py-0.5 text-[11px] font-bold rounded-full bg-emerald-100 text-emerald-700">Mode 6</span>
+            </div>
+            <h3 class="font-bold text-base text-slate-800">Relax Mode (Latihan)</h3>
+            <p class="text-xs text-slate-500 mt-1">Bebas tekanan waktu dan peringkat. Langsung menampilkan pembahasan edukatif.</p>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- 2. SCREEN: SISWA JOIN ROOM                              -->
+    <!-- ======================================================== -->
+    <section id="screen-student-join" class="screen-view hidden flex-1 flex items-center justify-center p-4 bg-gradient-to-b from-brand-dark via-brand-purple to-indigo-900 text-white">
+      
+      <div class="w-full max-w-md bg-white rounded-3xl p-6 sm:p-8 text-slate-800 shadow-2xl border border-slate-100">
+        
+        <div class="text-center mb-6">
+          <div class="w-14 h-14 mx-auto rounded-2xl bg-gradient-to-tr from-brand-blue to-purple-600 flex items-center justify-center text-white text-2xl mb-3 shadow-lg shadow-blue-500/30">
+            🎮
+          </div>
+          <h2 class="text-2xl font-black text-slate-900">MASUK KE PERMAINAN</h2>
+          <p class="text-xs text-slate-500 mt-1">SMP Negeri 19 Palembang</p>
+        </div>
+
+        <form id="form-student-join" onsubmit="app.handleStudentJoin(event)" class="space-y-4">
+          
+          <!-- Room PIN Input -->
+          <div>
+            <label for="join-room-pin" class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">
+              Kode Permainan (Room PIN)
+            </label>
+            <input 
+              type="text" 
+              id="join-room-pin" 
+              required 
+              maxlength="6"
+              placeholder="Contoh: 738421"
+              autocomplete="off"
+              class="w-full px-4 py-3.5 text-center text-2xl font-black tracking-widest bg-slate-50 border-2 border-slate-300 focus:border-brand-purple focus:bg-white rounded-xl uppercase transition outline-none"
+            >
+          </div>
+
+          <!-- Student Name Input -->
+          <div>
+            <label for="join-student-name" class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">
+              Nama Siswa / Panggilan
+            </label>
+            <input 
+              type="text" 
+              id="join-student-name" 
+              required 
+              maxlength="20"
+              placeholder="Contoh: Muchlas"
+              autocomplete="name"
+              class="w-full px-4 py-3 text-base font-bold bg-slate-50 border-2 border-slate-300 focus:border-brand-purple focus:bg-white rounded-xl transition outline-none"
+            >
+          </div>
+
+          <!-- Avatar Picker -->
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">
+              Pilih Avatar Karakter
+            </label>
+            <div id="join-avatar-grid" class="grid grid-cols-6 gap-2 p-2 bg-slate-50 rounded-xl border border-slate-200 max-h-36 overflow-y-auto">
+              <!-- Rendered via app.js -->
+            </div>
+            <div id="selected-avatar-label" class="text-center text-xs font-semibold text-purple-700 mt-1.5">
+              Avatar: <span id="avatar-title-display">Ilmuwan</span>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" class="w-full py-4 rounded-xl font-black text-lg bg-brand-green hover:bg-green-700 text-white shadow-lg shadow-green-600/30 transition transform hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center space-x-2">
+            <span>GABUNG PERMAINAN</span>
+            <span>🚀</span>
+          </button>
+
+          <!-- Back to home -->
+          <button type="button" onclick="app.showScreen('screen-home')" class="w-full py-2.5 text-xs font-semibold text-slate-500 hover:text-slate-700 transition">
+            ← Kembali ke Beranda
+          </button>
+
+        </form>
+
+      </div>
+
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- 3. SCREEN: SISWA LOBBY (WAITING ROOM)                   -->
+    <!-- ======================================================== -->
+    <section id="screen-student-lobby" class="screen-view hidden flex-1 flex flex-col items-center justify-center p-6 bg-gradient-to-b from-brand-dark via-brand-purple to-indigo-900 text-white text-center">
+      
+      <div class="w-full max-w-lg bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl p-8 shadow-2xl">
+        
+        <div id="lobby-avatar-icon" class="text-7xl mb-3 animate-bounce">
+          🧑‍🔬
+        </div>
+
+        <h2 id="lobby-ready-heading" class="text-3xl font-black text-amber-300">
+          MUCHLAS SIAP BERMAIN!
+        </h2>
+        
+        <p class="text-sm text-purple-200 mt-1">
+          Karakter kamu sudah terdaftar di ruang kelas.
+        </p>
+
+        <div class="my-5 inline-flex items-center space-x-3 px-6 py-2.5 rounded-full bg-white/10 border border-white/20">
+          <span class="text-xs uppercase tracking-wider text-purple-200">KODE ROOM:</span>
+          <span id="lobby-pin-display" class="text-xl font-black tracking-widest text-amber-300">738421</span>
+        </div>
+
+        <!-- Real-time Connected Participant Counter on Student Screen -->
+        <div class="my-3 p-4 rounded-2xl bg-black/30 border border-white/15 text-left">
+          <div class="flex items-center justify-between pb-2 border-b border-white/10">
+            <span class="text-xs font-bold uppercase tracking-wider text-purple-200">👥 Peserta di Ruang Tunggu:</span>
+            <span id="student-lobby-count" class="px-3 py-1 rounded-full bg-green-500 text-white font-black text-xs tracking-wide">1 Siswa</span>
+          </div>
+          <div id="student-lobby-players-list" class="flex flex-wrap gap-2 mt-3 max-h-36 overflow-y-auto p-1">
+            <span class="text-slate-400 text-xs italic">Memuat peserta...</span>
+          </div>
+        </div>
+
+        <div class="bg-black/30 rounded-2xl p-4 my-3 flex items-center justify-center space-x-3">
+          <div class="w-3 h-3 rounded-full bg-green-400 animate-ping"></div>
+          <span id="lobby-status-text" class="text-sm font-semibold text-white">
+            Menunggu guru memulai permainan di layar kelas...
+          </span>
+        </div>
+
+        <div class="mt-4 flex flex-col sm:flex-row gap-3 justify-center">
+          <button onclick="app.startSoloGameFromLobby()" class="px-5 py-3 rounded-xl font-bold bg-amber-400 hover:bg-amber-300 text-slate-900 shadow transition text-sm">
+            ▶ Main Mandiri Sekarang
+          </button>
+          <button onclick="app.showScreen('screen-student-join')" class="px-5 py-3 rounded-xl font-semibold bg-white/10 hover:bg-white/20 text-white transition text-xs">
+            Ganti Nama / Keluar
+          </button>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- 4. SCREEN: GAMEPLAY UTAMA (SISWA & SOLO)                -->
+    <!-- ======================================================== -->
+    <section id="screen-gameplay" class="screen-view hidden flex-1 flex flex-col bg-slate-900 text-white min-h-[calc(100vh-4rem)]">
+      
+      <!-- Top Gameplay Bar -->
+      <div class="bg-slate-800/90 border-b border-slate-700 px-4 py-2.5 flex items-center justify-between text-xs font-semibold">
+        
+        <!-- Left: Question Index & Subject -->
+        <div class="flex items-center space-x-2">
+          <span id="game-q-counter" class="px-2.5 py-1 rounded-md bg-purple-900/80 text-purple-200 font-bold border border-purple-700">
+            Soal 1 / 8
+          </span>
+          <span id="game-subject-badge" class="px-2.5 py-1 rounded-md bg-blue-900/80 text-blue-200 hidden sm:inline-block">
+            IPA
+          </span>
+          <span id="game-mode-badge" class="px-2 py-0.5 rounded bg-slate-700 text-slate-300 text-[10px]">
+            Classic
+          </span>
+        </div>
+
+        <!-- Center: Lives (Survival) or Streak (Streak Mode) -->
+        <div id="game-lives-or-streak" class="flex items-center space-x-1">
+          <span id="game-lives-display" class="text-rose-400 font-bold hidden">❤️❤️❤️</span>
+          <span id="game-streak-display" class="text-amber-400 font-black flex items-center">
+            <span class="flame-active mr-1">🔥</span>
+            <span>0</span>
+          </span>
+        </div>
+
+        <!-- Right: Current Score & Power-up Trigger -->
+        <div class="flex items-center space-x-3">
+          <div class="text-right">
+            <span class="text-[10px] text-slate-400 uppercase">Skor</span>
+            <div id="game-player-score" class="text-base font-black text-amber-300">0</div>
+          </div>
+          <button onclick="app.showInGameHelp()" class="p-1 text-slate-400 hover:text-white" title="Bantuan Soal">
+            ℹ️
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Race Track (Only Visible in Mode 3 Race) -->
+      <div id="game-race-track-wrapper" class="hidden px-4 py-2 bg-slate-950 border-b border-slate-800">
+        <div class="max-w-4xl mx-auto race-track-container p-2 h-14 flex items-center">
+          <div id="race-avatar-runner" class="absolute transition-all duration-700 text-2xl" style="left: 4%;">
+            🏎️ <span id="race-player-name" class="text-[10px] font-bold bg-black/60 px-1.5 py-0.5 rounded text-white ml-1">Siswa</span>
+          </div>
+          <div class="race-finish-line" title="Garis Finish"></div>
+        </div>
+      </div>
+
+      <!-- Timer Bar Countdown -->
+      <div class="w-full bg-slate-800 h-2 relative overflow-hidden">
+        <div id="game-timer-bar" class="h-full bg-gradient-to-r from-green-500 via-amber-400 to-rose-500 transition-all duration-200" style="width: 100%;"></div>
+      </div>
+
+      <!-- Main Question Container -->
+      <div class="flex-1 max-w-5xl w-full mx-auto p-4 sm:p-6 flex flex-col justify-between">
+        
+        <!-- Question Meta & Stimulus -->
+        <div class="space-y-3">
+          
+          <div class="flex items-center justify-between text-xs text-slate-400">
+            <span id="game-tp-display" class="truncate max-w-md">🎯 TP: Menganalisis konsep pembelajaran</span>
+            <div class="flex items-center space-x-1.5 font-bold">
+              <span>⏱️</span>
+              <span id="game-timer-text" class="text-amber-300 font-mono text-base">20s</span>
+            </div>
+          </div>
+
+          <!-- Question Box -->
+          <div class="bg-slate-800/95 border border-slate-700/80 rounded-2xl p-4 sm:p-6 shadow-xl text-center">
+            
+            <!-- Optional Media Stimulus (Image or Video) -->
+            <div id="game-stimulus-box" class="hidden mb-4">
+              <!-- Rendered dynamically (image, embed, or clue) -->
+            </div>
+
+            <h2 id="game-question-text" class="text-lg sm:text-2xl font-bold leading-relaxed text-white">
+              Pertanyaan kuis sedang dimuat...
+            </h2>
+
+            <div id="game-question-hint" class="hidden mt-3 px-3 py-1.5 bg-amber-900/40 border border-amber-600/50 rounded-lg text-xs text-amber-200 text-left">
+              💡 <strong>Petunjuk Guru:</strong> <span id="hint-content"></span>
+            </div>
+
+          </div>
+
+          <!-- Power-ups Bar (Optional) -->
+          <div id="game-powerups-bar" class="flex items-center justify-center gap-2 pt-1">
+            <button id="pu-5050" onclick="app.usePowerUp('5050')" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-600 text-xs font-bold text-slate-200 transition" title="Hilangkan 2 opsi salah">
+              ✂️ 50:50
+            </button>
+            <button id="pu-extra-time" onclick="app.usePowerUp('time')" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-600 text-xs font-bold text-slate-200 transition" title="Tambah 10 detik">
+              ⏳ +10 Detik
+            </button>
+            <button id="pu-double" onclick="app.usePowerUp('double')" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-600 text-xs font-bold text-slate-200 transition" title="Poin ganda soal ini">
+              ✨ 2x Poin
+            </button>
+            <button id="pu-hint" onclick="app.usePowerUp('hint')" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-600 text-xs font-bold text-slate-200 transition" title="Lihat petunjuk">
+              💡 Petunjuk
+            </button>
+          </div>
+
+        </div>
+
+        <!-- Dynamic Answer Interface Area -->
+        <div id="game-answer-container" class="mt-4 mb-2">
+          <!-- Will render: Multiple Choice, True/False, Complex, Matching, Ordering, or Short Answer -->
+        </div>
+
+        <!-- Keyboard Assist Hint Footer -->
+        <div class="text-center text-[11px] text-slate-500 py-1">
+          Gunakan tombol <kbd class="px-1.5 py-0.5 rounded bg-slate-800 border border-slate-700 text-slate-300">1</kbd> <kbd class="px-1.5 py-0.5 rounded bg-slate-800 border border-slate-700 text-slate-300">2</kbd> <kbd class="px-1.5 py-0.5 rounded bg-slate-800 border border-slate-700 text-slate-300">3</kbd> <kbd class="px-1.5 py-0.5 rounded bg-slate-800 border border-slate-700 text-slate-300">4</kbd> atau klik kartu jawaban.
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- 5. SCREEN: FEEDBACK JAWABAN (SETELAH MENJAWAB)           -->
+    <!-- ======================================================== -->
+    <section id="screen-feedback" class="screen-view hidden flex-1 flex flex-col items-center justify-center p-4 bg-slate-900 text-white">
+      
+      <div class="w-full max-w-lg bg-slate-800 rounded-3xl p-6 sm:p-8 text-center border border-slate-700 shadow-2xl animate-fade-in">
+        
+        <!-- Status Icon & Title -->
+        <div id="feedback-icon" class="text-6xl mb-3">
+          🎉
+        </div>
+
+        <h2 id="feedback-title" class="text-3xl font-black text-green-400">
+          BENAR!
+        </h2>
+        <p id="feedback-subtitle" class="text-sm text-slate-300 mt-1">
+          Hebat! Jawaban kamu tepat sekali.
+        </p>
+
+        <!-- Points Earned Card -->
+        <div id="feedback-points-card" class="my-5 p-4 rounded-2xl bg-slate-900/80 border border-slate-700/80 flex items-center justify-around">
+          <div>
+            <span class="text-[11px] text-slate-400 uppercase font-bold">Poin Soal</span>
+            <div id="feedback-score-add" class="text-2xl font-black text-amber-400">+100</div>
+          </div>
+          <div class="border-l border-slate-700 pl-4">
+            <span class="text-[11px] text-slate-400 uppercase font-bold">Bonus Kilat</span>
+            <div id="feedback-speed-bonus" class="text-xl font-bold text-sky-400">+35</div>
+          </div>
+          <div class="border-l border-slate-700 pl-4">
+            <span class="text-[11px] text-slate-400 uppercase font-bold">Streak</span>
+            <div id="feedback-streak-count" class="text-xl font-black text-orange-400">🔥 2</div>
+          </div>
+        </div>
+
+        <!-- Explanation & Key Answer Box -->
+        <div class="bg-slate-900 p-4 rounded-xl text-left border border-slate-700 text-xs space-y-2">
+          <div>
+            <span class="font-bold text-slate-400 uppercase">Jawaban Tepat:</span>
+            <p id="feedback-correct-answer" class="text-green-400 font-bold text-sm mt-0.5">-</p>
+          </div>
+          <div>
+            <span class="font-bold text-slate-400 uppercase">Pembahasan Edukatif:</span>
+            <p id="feedback-explanation" class="text-slate-300 leading-relaxed mt-0.5">-</p>
+          </div>
+        </div>
+
+        <!-- Next Question Action Button -->
+        <div class="mt-6 flex gap-3">
+          <button onclick="app.nextQuestionOrLeaderboard()" class="flex-1 py-3.5 rounded-xl font-black text-base bg-brand-purple hover:bg-brand-dark text-white shadow-lg shadow-purple-600/30 transition active:scale-95">
+            Lanjut Soal Berikutnya ➔
+          </button>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- 6. SCREEN: LEADERBOARD LIVE                             -->
+    <!-- ======================================================== -->
+    <section id="screen-leaderboard" class="screen-view hidden flex-1 flex flex-col items-center justify-center p-4 bg-gradient-to-b from-brand-dark via-brand-purple to-indigo-950 text-white">
+      
+      <div class="w-full max-w-2xl bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl p-6 sm:p-8 shadow-2xl">
+        
+        <div class="text-center mb-6">
+          <span class="px-3 py-1 rounded-full bg-amber-400/20 text-amber-300 text-xs font-bold border border-amber-400/30">
+            KLASEMEN SEMENTARA
+          </span>
+          <h2 class="text-3xl font-black text-white mt-2">🏆 PAPAN PERINGKAT</h2>
+          <p class="text-xs text-purple-200 mt-1">SMP Negeri 19 Palembang</p>
+        </div>
+
+        <!-- Team Scores Bar (Shown in Team Battle Mode) -->
+        <div id="leaderboard-team-container" class="hidden mb-6 grid grid-cols-4 gap-2">
+          <div class="p-2.5 rounded-xl bg-red-600 text-center text-xs font-bold">
+            <div>Tim Merah</div>
+            <div id="team-score-red" class="text-lg font-black">0</div>
+          </div>
+          <div class="p-2.5 rounded-xl bg-blue-600 text-center text-xs font-bold">
+            <div>Tim Biru</div>
+            <div id="team-score-blue" class="text-lg font-black">0</div>
+          </div>
+          <div class="p-2.5 rounded-xl bg-green-600 text-center text-xs font-bold">
+            <div>Tim Hijau</div>
+            <div id="team-score-green" class="text-lg font-black">0</div>
+          </div>
+          <div class="p-2.5 rounded-xl bg-yellow-600 text-center text-xs font-bold">
+            <div>Tim Kuning</div>
+            <div id="team-score-yellow" class="text-lg font-black">0</div>
+          </div>
+        </div>
+
+        <!-- Leaderboard List -->
+        <div id="leaderboard-list" class="space-y-2.5 mb-6">
+          <!-- Rendered dynamically -->
+        </div>
+
+        <!-- Positive Motivational Banner -->
+        <div class="bg-amber-400/20 border border-amber-300/30 rounded-2xl p-3.5 text-center text-xs font-semibold text-amber-200">
+          “Tetap semangat! Masih ada kesempatan untuk mengejar!” ✨
+        </div>
+
+        <!-- Action Button -->
+        <div class="mt-6 flex justify-center">
+          <button onclick="app.continueAfterLeaderboard()" class="px-8 py-3.5 rounded-xl font-black text-base bg-amber-400 hover:bg-amber-300 text-slate-900 shadow-lg shadow-amber-400/30 transition active:scale-95">
+            Lanjut ke Soal Berikutnya ➔
+          </button>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- 7. SCREEN: HASIL AKHIR & REFLEKSI SISWA                -->
+    <!-- ======================================================== -->
+    <section id="screen-results" class="screen-view hidden flex-1 py-10 px-4 sm:px-6 lg:px-8 bg-slate-50">
+      
+      <div class="max-w-3xl mx-auto space-y-6">
+        
+        <!-- Result Header Celebration -->
+        <div class="bg-gradient-to-r from-brand-dark via-brand-purple to-indigo-800 rounded-3xl p-8 text-white text-center shadow-xl relative overflow-hidden">
+          <div class="text-5xl mb-2">🎉</div>
+          <h2 class="text-3xl sm:text-4xl font-black tracking-tight">KUIS SELESAI!</h2>
+          <p class="text-purple-200 text-sm mt-1">Terima kasih sudah belajar, bermain, dan berprestasi.</p>
+
+          <!-- Main Stats Scoreboard Grid -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-6">
+            <div class="bg-white/10 backdrop-blur rounded-2xl p-3.5 border border-white/20">
+              <span class="text-[11px] text-purple-200 uppercase font-semibold">Skor Kamu</span>
+              <div id="result-score" class="text-2xl sm:text-3xl font-black text-amber-300 mt-0.5">850</div>
+            </div>
+            <div class="bg-white/10 backdrop-blur rounded-2xl p-3.5 border border-white/20">
+              <span class="text-[11px] text-purple-200 uppercase font-semibold">Benar / Soal</span>
+              <div id="result-correct-count" class="text-2xl sm:text-3xl font-black text-green-300 mt-0.5">8 / 10</div>
+            </div>
+            <div class="bg-white/10 backdrop-blur rounded-2xl p-3.5 border border-white/20">
+              <span class="text-[11px] text-purple-200 uppercase font-semibold">Akurasi</span>
+              <div id="result-accuracy" class="text-2xl sm:text-3xl font-black text-sky-300 mt-0.5">80%</div>
+            </div>
+            <div class="bg-white/10 backdrop-blur rounded-2xl p-3.5 border border-white/20">
+              <span class="text-[11px] text-purple-200 uppercase font-semibold">Streak Terbaik</span>
+              <div id="result-best-streak" class="text-2xl sm:text-3xl font-black text-orange-300 mt-0.5">🔥 4</div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Badges Earned Section -->
+        <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm">
+          <h3 class="font-black text-lg text-slate-800 mb-3 flex items-center space-x-2">
+            <span>🎖️</span>
+            <span>Lencana & Prestasi Diraih</span>
+          </h3>
+          <div id="result-badges-container" class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+            <!-- Rendered dynamically -->
+          </div>
+        </div>
+
+        <!-- Refleksi Pembelajaran Siswa (Section AH) -->
+        <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm">
+          <div class="flex items-center space-x-2 mb-2">
+            <span class="text-2xl">🌱</span>
+            <h3 class="text-xl font-black text-slate-800">REFLEKSI BELAJAR SISWA</h3>
+          </div>
+          <p class="text-xs sm:text-sm text-slate-500 mb-6">
+            Bantu Bapak/Ibu Guru memahami pemahamanmu setelah menyelesaikan kuis ini.
+          </p>
+
+          <form id="form-student-reflection" onsubmit="app.handleSaveReflection(event)" class="space-y-5">
+            
+            <!-- Question 1: Tingkat Pemahaman -->
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-2">
+                1. Bagaimana tingkat pemahamanmu terhadap materi kuis ini?
+              </label>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="reflection-options-grid">
+                <!-- Rendered dynamically from REFLECTION_OPTIONS -->
+              </div>
+            </div>
+
+            <!-- Question 2: Materi Membingungkan -->
+            <div>
+              <label for="refl-confusing" class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">
+                2. Apa yang masih terasa membingungkan atau perlu dipelajari kembali?
+              </label>
+              <textarea 
+                id="refl-confusing" 
+                rows="2" 
+                placeholder="Contoh: Saya masih bingung membedakan rumus luas permukaan dan volume tabung..."
+                class="w-full px-4 py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-purple-500 outline-none"
+              ></textarea>
+            </div>
+
+            <!-- Question 3: Hal yang Disukai -->
+            <div>
+              <label for="refl-good" class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">
+                3. Hal menarik apa yang sudah kamu pahami dengan baik hari ini?
+              </label>
+              <textarea 
+                id="refl-good" 
+                rows="2" 
+                placeholder="Contoh: Saya sudah paham konsep rantai makanan dan peran produsen..."
+                class="w-full px-4 py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-purple-500 outline-none"
+              ></textarea>
+            </div>
+
+            <button type="submit" id="btn-submit-reflection" class="w-full py-3.5 rounded-xl font-bold bg-brand-green hover:bg-green-700 text-white shadow-md transition">
+              💾 Simpan Refleksi Belajar
+            </button>
+
+          </form>
+
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex flex-col sm:flex-row gap-3">
+          <button onclick="app.startDemoQuiz()" class="flex-1 py-3.5 rounded-xl font-bold bg-brand-purple hover:bg-brand-dark text-white shadow transition text-center">
+            🔄 Main Kuis Lainnya
+          </button>
+          <button onclick="app.showScreen('screen-home')" class="flex-1 py-3.5 rounded-xl font-semibold bg-white hover:bg-slate-100 text-slate-700 border border-slate-300 shadow-sm transition text-center">
+            🏠 Kembali ke Beranda
+          </button>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- 8. SCREEN: TEACHER DASHBOARD (DASHBOARD GURU)           -->
+    <!-- ======================================================== -->
+    <section id="screen-teacher-dashboard" class="screen-view hidden flex-1 py-8 px-4 sm:px-6 lg:px-8 bg-slate-100/80">
+      
+      <div class="max-w-7xl mx-auto space-y-6">
+        
+        <!-- Teacher Header Profile -->
+        <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div class="flex items-center space-x-4">
+            <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-brand-purple to-indigo-600 text-white flex items-center justify-center text-2xl shadow-md">
+              👩‍🏫
+            </div>
+            <div>
+              <div class="flex items-center space-x-2">
+                <h2 class="text-xl sm:text-2xl font-black text-slate-800">Ruang Guru SMP Negeri 19 Palembang</h2>
+                <span class="px-2.5 py-0.5 text-xs font-bold rounded-full bg-emerald-100 text-emerald-800">Aktif</span>
+              </div>
+              <p class="text-xs sm:text-sm text-slate-500">Pusat Asesmen Interaktif, Bank Soal, Pembuat Kuis AI, dan Laporan Hasil Siswa</p>
+            </div>
+          </div>
+
+          <div class="flex items-center space-x-2">
+            <button onclick="app.openNewQuizModal()" class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-brand-purple hover:bg-brand-dark text-white shadow transition flex items-center space-x-1.5">
+              <span>➕</span>
+              <span>Buat Kuis Baru</span>
+            </button>
+            <button onclick="app.openAIGeneratorModal()" class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-gradient-to-r from-indigo-600 to-pink-600 text-white shadow hover:opacity-90 transition flex items-center space-x-1.5">
+              <span>✨</span>
+              <span>AI Question Gen</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Teacher Navigation Tabs -->
+        <div class="flex border-b border-slate-200 bg-white rounded-2xl p-1.5 shadow-sm overflow-x-auto space-x-1 text-xs sm:text-sm font-bold">
+          <button id="tab-btn-quizzes" onclick="app.switchTeacherTab('quizzes')" class="tab-teacher active px-4 py-2.5 rounded-xl text-brand-purple bg-purple-50 transition whitespace-nowrap">
+            📚 Daftar Kuis
+          </button>
+          <button id="tab-btn-bank" onclick="app.switchTeacherTab('bank')" class="tab-teacher px-4 py-2.5 rounded-xl text-slate-600 hover:text-brand-purple transition whitespace-nowrap">
+            🗄️ Bank Soal
+          </button>
+          <button id="tab-btn-ai" onclick="app.switchTeacherTab('ai')" class="tab-teacher px-4 py-2.5 rounded-xl text-slate-600 hover:text-brand-purple transition whitespace-nowrap">
+            ✨ AI Generator Soal
+          </button>
+          <button id="tab-btn-templates" onclick="app.switchTeacherTab('templates')" class="tab-teacher px-4 py-2.5 rounded-xl text-slate-600 hover:text-brand-purple transition whitespace-nowrap">
+            📑 Template Siap Pakai
+          </button>
+          <button id="tab-btn-import" onclick="app.switchTeacherTab('import')" class="tab-teacher px-4 py-2.5 rounded-xl text-slate-600 hover:text-brand-purple transition whitespace-nowrap">
+            📥 Import / Ekspor Excel
+          </button>
+          <button id="tab-btn-reports" onclick="app.switchTeacherTab('reports')" class="tab-teacher px-4 py-2.5 rounded-xl text-slate-600 hover:text-brand-purple transition whitespace-nowrap">
+            📊 Laporan & Analisis Soal
+          </button>
+        </div>
+
+        <!-- TAB CONTENT: DAFTAR KUIS -->
+        <div id="tab-content-quizzes" class="tab-panel space-y-6">
+          
+          <!-- Summary Metrics Cards -->
+          <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3.5">
+            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+              <span class="text-xs text-slate-500 font-semibold">Total Kuis</span>
+              <div id="stat-total-quizzes" class="text-2xl font-black text-slate-800 mt-1">3</div>
+            </div>
+            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+              <span class="text-xs text-slate-500 font-semibold">Total Soal di Bank</span>
+              <div id="stat-total-questions" class="text-2xl font-black text-brand-purple mt-1">24</div>
+            </div>
+            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+              <span class="text-xs text-slate-500 font-semibold">Siswa Pernah Main</span>
+              <div id="stat-total-students" class="text-2xl font-black text-blue-600 mt-1">128</div>
+            </div>
+            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+              <span class="text-xs text-slate-500 font-semibold">Rata-Rata Nilai</span>
+              <div id="stat-avg-score" class="text-2xl font-black text-emerald-600 mt-1">82.4</div>
+            </div>
+            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm col-span-2 sm:col-span-1">
+              <span class="text-xs text-slate-500 font-semibold">Sesi Dimainkan</span>
+              <div id="stat-total-sessions" class="text-2xl font-black text-amber-600 mt-1">16</div>
+            </div>
+          </div>
+
+          <!-- Quizzes Grid -->
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="text-lg font-black text-slate-800">Koleksi Kuis Aktif</h3>
+              <span class="text-xs text-slate-500">Klik "Buat Room (Host)" untuk memulai kuis bersama siswa di kelas</span>
+            </div>
+            <div id="teacher-quiz-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+              <!-- Rendered dynamically -->
+            </div>
+          </div>
+
+        </div>
+
+        <!-- TAB CONTENT: BANK SOAL -->
+        <div id="tab-content-bank" class="tab-panel hidden space-y-6">
+          <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-4">
+            
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <div>
+                <h3 class="text-lg font-black text-slate-800">Bank Soal Terintegrasi</h3>
+                <p class="text-xs text-slate-500">Kelola soal untuk semua mata pelajaran Fase D SMP Negeri 19 Palembang</p>
+              </div>
+              <button onclick="app.openNewQuestionModal()" class="px-4 py-2.5 rounded-xl text-xs font-bold bg-brand-green hover:bg-green-700 text-white shadow transition flex items-center space-x-1.5">
+                <span>➕</span>
+                <span>Tambah Soal Baru</span>
+              </button>
+            </div>
+
+            <!-- Filter Controls -->
+            <div class="grid grid-cols-1 sm:grid-cols-4 gap-3 pt-2">
+              <input 
+                type="text" 
+                id="bank-filter-search" 
+                placeholder="Cari kata kunci soal..." 
+                oninput="app.renderQuestionBank()"
+                class="px-3 py-2 text-xs border border-slate-300 rounded-xl outline-none focus:ring-2 focus:ring-purple-500"
+              >
+              <select id="bank-filter-subject" onchange="app.renderQuestionBank()" class="px-3 py-2 text-xs border border-slate-300 rounded-xl outline-none">
+                <option value="all">Semua Mata Pelajaran</option>
+                <!-- Rendered dynamically -->
+              </select>
+              <select id="bank-filter-level" onchange="app.renderQuestionBank()" class="px-3 py-2 text-xs border border-slate-300 rounded-xl outline-none">
+                <option value="all">Semua Tingkat Kesulitan</option>
+                <option value="mudah">Mudah</option>
+                <option value="sedang">Sedang</option>
+                <option value="sulit">Sulit (HOTS)</option>
+              </select>
+              <select id="bank-filter-type" onchange="app.renderQuestionBank()" class="px-3 py-2 text-xs border border-slate-300 rounded-xl outline-none">
+                <option value="all">Semua Tipe Soal</option>
+                <option value="pilihan_ganda">Pilihan Ganda</option>
+                <option value="benar_salah">Benar / Salah</option>
+                <option value="kompleks">Pilihan Ganda Kompleks</option>
+                <option value="menjodohkan">Menjodohkan</option>
+                <option value="urutkan">Urutkan</option>
+                <option value="jawaban_singkat">Jawaban Singkat</option>
+                <option value="hots">HOTS</option>
+              </select>
+            </div>
+
+            <!-- Question Bank List -->
+            <div id="bank-questions-list" class="space-y-3 pt-2">
+              <!-- Rendered dynamically -->
+            </div>
+
+          </div>
+        </div>
+
+        <!-- TAB CONTENT: AI GENERATOR FORM -->
+        <div id="tab-content-ai" class="tab-panel hidden space-y-6">
+          <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm max-w-3xl mx-auto">
+            
+            <div class="flex items-center space-x-3 mb-4">
+              <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-indigo-600 via-purple-600 to-pink-500 text-white flex items-center justify-center text-2xl shadow">
+                ✨
+              </div>
+              <div>
+                <h3 class="text-xl font-black text-slate-800">BUAT SOAL DENGAN AI</h3>
+                <p class="text-xs text-slate-500">Generator Kurikulum Merdeka Fase D (SMPN 19 Palembang)</p>
+              </div>
+            </div>
+
+            <form onsubmit="app.handleAIGenerate(event)" class="space-y-4">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Mata Pelajaran</label>
+                  <select id="ai-subject" class="w-full px-3.5 py-2.5 text-sm border border-slate-300 rounded-xl outline-none">
+                    <!-- dynamically filled -->
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Jenjang Kelas</label>
+                  <select id="ai-grade" class="w-full px-3.5 py-2.5 text-sm border border-slate-300 rounded-xl outline-none">
+                    <option value="VII">Kelas VII (Tujuh)</option>
+                    <option value="VIII" selected>Kelas VIII (Delapan)</option>
+                    <option value="IX">Kelas IX (Sembilan)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Topik / Materi Pembelajaran</label>
+                <input 
+                  type="text" 
+                  id="ai-topic" 
+                  required 
+                  placeholder="Contoh: Sistem Indera Manusia, Teorema Pythagoras, Teks LHO, dll." 
+                  class="w-full px-4 py-2.5 text-sm border border-slate-300 rounded-xl outline-none focus:ring-2 focus:ring-purple-500"
+                >
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Jumlah Soal</label>
+                  <select id="ai-count" class="w-full px-3.5 py-2.5 text-sm border border-slate-300 rounded-xl outline-none">
+                    <option value="5" selected>5 Soal</option>
+                    <option value="10">10 Soal</option>
+                    <option value="15">15 Soal</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Tingkat Kognitif / Level</label>
+                  <select id="ai-level" class="w-full px-3.5 py-2.5 text-sm border border-slate-300 rounded-xl outline-none">
+                    <option value="HOTS" selected>HOTS (C4 Analisis, C5 Evaluasi, C6 Kreasi)</option>
+                    <option value="Sedang">Sedang (C3 Aplikasi Kontekstual)</option>
+                    <option value="Mudah">Mudah (C1 Mengingat, C2 Memahami)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="p-4 bg-purple-50 rounded-2xl border border-purple-100 text-xs text-purple-800 space-y-1">
+                <strong>Catatan Pedagogis:</strong>
+                <p>AI akan otomatis melengkapi setiap butir soal dengan: Kunci Jawaban, Pembahasan Ilmiah Edukatif, Level Kognitif Bloom, dan Tujuan Pembelajaran (TP). Guru dapat meninjau dan mengedit sebelum disimpan.</p>
+              </div>
+
+              <button type="submit" id="btn-ai-generate" class="w-full py-3.5 rounded-xl font-black text-base bg-gradient-to-r from-brand-purple to-indigo-600 hover:from-brand-dark hover:to-indigo-700 text-white shadow-lg transition flex items-center justify-center space-x-2">
+                <span>✨</span>
+                <span>PROSES DAN BUAT SOAL AI</span>
+              </button>
+            </form>
+
+          </div>
+        </div>
+
+        <!-- TAB CONTENT: TEMPLATES SIAP PAKAI -->
+        <div id="tab-content-templates" class="tab-panel hidden space-y-6">
+          <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
+            <h3 class="text-lg font-black text-slate-800 mb-1">Template Kuis Pembelajaran Siap Pakai</h3>
+            <p class="text-xs text-slate-500 mb-6">Pilih template terstruktur sesuai alur dan ritme pembelajaran di kelas.</p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" id="templates-grid">
+              <!-- Rendered dynamically -->
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB CONTENT: IMPORT / EKSPOR EXCEL -->
+        <div id="tab-content-import" class="tab-panel hidden space-y-6">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            
+            <!-- Import Card -->
+            <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-4">
+              <div class="flex items-center space-x-2.5">
+                <span class="text-2xl">📥</span>
+                <div>
+                  <h3 class="font-bold text-base text-slate-800">Import Soal dari Excel / CSV</h3>
+                  <p class="text-xs text-slate-500">Unggah kumpulan soal sekaligus dalam hitungan detik</p>
+                </div>
+              </div>
+
+              <div class="p-3 bg-slate-50 rounded-xl text-[11px] text-slate-600 border border-slate-200 font-mono">
+                Format Kolom:<br>
+                No | Pertanyaan | A | B | C | D | Kunci | Pembahasan | Materi | Level
+              </div>
+
+              <div class="flex items-center space-x-2">
+                <button onclick="smartStorage.downloadQuestionTemplateCSV()" class="px-3.5 py-2 text-xs font-bold text-purple-700 bg-purple-50 hover:bg-purple-100 rounded-xl border border-purple-200 transition">
+                  📄 Unduh Template CSV Excel
+                </button>
+              </div>
+
+              <div class="space-y-2 pt-2">
+                <label class="block text-xs font-bold text-slate-600">Pilih File CSV / Excel:</label>
+                <input 
+                  type="file" 
+                  id="csv-file-input" 
+                  accept=".csv,.txt"
+                  class="block w-full text-xs text-slate-500 file:mr-3 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-purple-50 file:text-purple-700 hover:file:bg-purple-100"
+                >
+              </div>
+
+              <button onclick="app.handleCSVImport()" class="w-full py-3 rounded-xl font-bold text-xs bg-brand-purple hover:bg-brand-dark text-white shadow transition">
+                Import Soal Sekarang ➔
+              </button>
+            </div>
+
+            <!-- Export & Backup Card -->
+            <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-4">
+              <div class="flex items-center space-x-2.5">
+                <span class="text-2xl">📤</span>
+                <div>
+                  <h3 class="font-bold text-base text-slate-800">Ekspor Laporan & Cadangan</h3>
+                  <p class="text-xs text-slate-500">Simpan rekap nilai dan bank soal ke format spreadsheet</p>
+                </div>
+              </div>
+
+              <p class="text-xs text-slate-600">
+                Data hasil asesmen siswa dapat diekspor langsung ke format CSV yang kompatibel penuh dengan Microsoft Excel, Google Sheets, atau aplikasi e-Rapor.
+              </p>
+
+              <div class="space-y-2 pt-4">
+                <button onclick="app.exportLatestSessionToCSV()" class="w-full py-3 rounded-xl font-bold text-xs bg-brand-green hover:bg-green-700 text-white shadow transition flex items-center justify-center space-x-2">
+                  <span>📊</span>
+                  <span>Ekspor Rekap Hasil Kuis Terakhir (CSV)</span>
+                </button>
+
+                <button onclick="app.printAssessmentReport()" class="w-full py-3 rounded-xl font-bold text-xs bg-slate-800 hover:bg-slate-900 text-white shadow transition flex items-center justify-center space-x-2">
+                  <span>🖨️</span>
+                  <span>Cetak Laporan Resmi SMPN 19 Palembang</span>
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- TAB CONTENT: LAPORAN & ANALISIS BUTIR SOAL -->
+        <div id="tab-content-reports" class="tab-panel hidden space-y-6">
+          <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-6">
+            
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <h3 class="text-lg font-black text-slate-800">Laporan Hasil & Analisis Butir Soal</h3>
+                <p class="text-xs text-slate-500">Evaluasi ketuntasan belajar siswa dan efektivitas butir asesmen</p>
+              </div>
+              <div class="flex items-center space-x-2">
+                <button onclick="app.printAssessmentReport()" class="px-3.5 py-2 text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl transition">
+                  🖨️ Cetak
+                </button>
+                <button onclick="app.exportLatestSessionToCSV()" class="px-3.5 py-2 text-xs font-bold bg-green-50 hover:bg-green-100 text-green-700 border border-green-200 rounded-xl transition">
+                  📊 Ekspor CSV
+                </button>
+              </div>
+            </div>
+
+            <!-- Class Analysis Summary -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3" id="report-class-summary">
+              <!-- Rendered dynamically -->
+            </div>
+
+            <!-- Item Analysis (Analisis Butir Soal: Termudah vs Tersulit) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="p-4 rounded-2xl bg-green-50/70 border border-green-200/80">
+                <h4 class="font-bold text-xs text-green-800 uppercase tracking-wider mb-2 flex items-center space-x-1.5">
+                  <span>🌟</span>
+                  <span>Soal Termudah (Ketuntasan Tinggi)</span>
+                </h4>
+                <div id="report-easiest-question" class="text-xs text-slate-700">
+                  Belum ada data permainan tersimpan.
+                </div>
+              </div>
+
+              <div class="p-4 rounded-2xl bg-rose-50/70 border border-rose-200/80">
+                <h4 class="font-bold text-xs text-rose-800 uppercase tracking-wider mb-2 flex items-center space-x-1.5">
+                  <span>⚠️</span>
+                  <span>Soal Tersulit (Perlu Penguatan Konsep)</span>
+                </h4>
+                <div id="report-hardest-question" class="text-xs text-slate-700">
+                  Belum ada data permainan tersimpan.
+                </div>
+              </div>
+            </div>
+
+            <!-- Student Results Table -->
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs">
+                <thead class="bg-slate-50 border-y border-slate-200 font-bold text-slate-600">
+                  <tr>
+                    <th class="py-2.5 px-3">Peringkat</th>
+                    <th class="py-2.5 px-3">Nama Siswa</th>
+                    <th class="py-2.5 px-3">Benar</th>
+                    <th class="py-2.5 px-3">Salah</th>
+                    <th class="py-2.5 px-3">Akurasi</th>
+                    <th class="py-2.5 px-3">Skor</th>
+                    <th class="py-2.5 px-3">Status KKTP</th>
+                  </tr>
+                </thead>
+                <tbody id="report-students-tbody" class="divide-y divide-slate-100 text-slate-700">
+                  <!-- Rendered dynamically -->
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- 9. SCREEN: TEACHER HOST (LAYAR PRESENTASI PROYEKTOR)    -->
+    <!-- ======================================================== -->
+    <section id="screen-teacher-host" class="screen-view hidden flex-1 flex flex-col bg-slate-950 text-white min-h-[calc(100vh-4rem)]">
+      
+      <!-- Top Host Navigation Bar -->
+      <div class="bg-slate-900 border-b border-slate-800 px-6 py-3 flex items-center justify-between">
+        
+        <div class="flex items-center space-x-4">
+          <div class="px-3 py-1 rounded-xl bg-purple-900/60 border border-purple-500/40 text-purple-300 font-bold text-xs">
+            ROOM PIN: <span id="host-pin-code" class="text-amber-300 text-lg font-black ml-1">738421</span>
+          </div>
+          <div id="host-quiz-title" class="font-bold text-sm text-slate-200 hidden md:block">
+            Kuis Campuran SMP 19
+          </div>
+        </div>
+
+        <!-- Real-time Connected Counter -->
+        <div class="flex items-center space-x-3 text-xs">
+          <div class="flex items-center space-x-2 bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-700">
+            <span>👥</span>
+            <span>Peserta:</span>
+            <strong id="host-player-count" class="text-green-400 font-black text-sm">0</strong>
+          </div>
+          <div class="flex items-center space-x-2 bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-700">
+            <span>📝</span>
+            <span>Menjawab:</span>
+            <strong id="host-answered-count" class="text-amber-400 font-black text-sm">0</strong>
+          </div>
+        </div>
+
+        <!-- Host Quick Controls -->
+        <div class="flex items-center space-x-2">
+          <button onclick="app.hostToggleTimerPause()" id="btn-host-pause" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 rounded-lg text-xs font-semibold text-slate-200 border border-slate-700">
+            ⏸ Jeda
+          </button>
+          <button onclick="app.hostNextQuestion()" class="px-3 py-1.5 bg-brand-purple hover:bg-brand-dark rounded-lg text-xs font-bold text-white shadow">
+            ⏭ Soal Berikutnya
+          </button>
+          <button onclick="app.hostEndGame()" class="px-3 py-1.5 bg-rose-700 hover:bg-rose-800 rounded-lg text-xs font-bold text-white shadow">
+            🏁 Akhiri
+          </button>
+        </div>
+
+      </div>
+
+      <!-- HOST SUB-VIEW A: LOBBY PROYEKTOR (WAITING FOR STUDENTS) -->
+      <div id="host-view-lobby" class="flex-1 flex flex-col items-center justify-center p-6 text-center">
+        
+        <div class="max-w-3xl w-full bg-slate-900/90 border border-slate-800 rounded-3xl p-8 shadow-2xl">
+          <p class="text-xs font-bold uppercase tracking-widest text-purple-400 mb-2">
+            GABUNG SEKARANG KE SMART QUIZ
+          </p>
+          
+          <div class="my-3">
+            <span class="text-slate-400 text-sm">Buka aplikasi dan masukkan Room PIN:</span>
+            <div id="host-lobby-pin-giant" class="text-6xl sm:text-7xl font-black tracking-widest text-amber-300 my-2 select-all font-mono">
+              738421
+            </div>
+          </div>
+
+          <div class="flex items-center justify-center gap-3 my-4">
+            <button onclick="app.simulateStudentsJoin()" class="px-4 py-2 rounded-xl text-xs font-bold bg-indigo-600/80 hover:bg-indigo-600 text-white transition">
+              🤖 Simulasi +4 Siswa Bergabung (Demo Kelas)
+            </button>
+            <button onclick="app.copyRoomLink()" class="px-4 py-2 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 transition">
+              📋 Salin Kode PIN
+            </button>
+          </div>
+
+          <!-- Live Players Grid -->
+          <div class="mt-6 border-t border-slate-800 pt-6">
+            <div class="text-xs font-bold uppercase text-slate-400 mb-3">
+              Daftar Siswa Bergabung (<span id="host-lobby-count">0</span>)
+            </div>
+            <div id="host-lobby-players-grid" class="flex flex-wrap gap-2 justify-center max-h-56 overflow-y-auto p-2">
+              <span class="text-slate-600 text-xs italic">Belum ada siswa yang bergabung...</span>
+            </div>
+          </div>
+
+          <!-- Big Start Button -->
+          <div class="mt-8">
+            <button onclick="app.hostStartGame()" class="px-10 py-4 rounded-2xl font-black text-xl bg-brand-green hover:bg-green-700 text-white shadow-xl shadow-green-600/30 transition transform hover:scale-105 active:scale-95">
+              ▶ MULAI KUIS SEKARANG
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- HOST SUB-VIEW B: SOAL PROYEKTOR (QUESTION DISPLAY) -->
+      <div id="host-view-question" class="hidden flex-1 flex flex-col justify-between p-6 max-w-6xl w-full mx-auto">
+        
+        <!-- Timer Bar -->
+        <div class="w-full bg-slate-800 h-3 rounded-full overflow-hidden mb-4">
+          <div id="host-timer-bar" class="h-full bg-amber-400 transition-all duration-200" style="width: 100%;"></div>
+        </div>
+
+        <!-- Big Question Header -->
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl p-8 text-center shadow-xl">
+          <div class="flex items-center justify-between text-xs text-slate-400 mb-3">
+            <span id="host-q-meta">Soal 1 dari 8 • Level: Sedang</span>
+            <span id="host-timer-display" class="text-2xl font-black text-amber-300 font-mono">20s</span>
+          </div>
+
+          <h2 id="host-question-text" class="text-2xl sm:text-4xl font-black text-white leading-relaxed">
+            Pertanyaan ditampilkan di sini...
+          </h2>
+        </div>
+
+        <!-- Answer Statistics Chart & Shapes -->
+        <div id="host-options-grid" class="grid grid-cols-2 gap-4 mt-6">
+          <!-- 4 Big Kahoot Color Cards with response count bars -->
+        </div>
+
+      </div>
+
+      <!-- HOST SUB-VIEW C: LEADERBOARD PROYEKTOR -->
+      <div id="host-view-podium" class="hidden flex-1 flex flex-col items-center justify-center p-6 text-center">
+        <div class="max-w-3xl w-full">
+          <span class="text-xs uppercase font-bold tracking-widest text-amber-400">Papan Peringkat Kelas</span>
+          <h2 class="text-4xl font-black text-white mt-1 mb-6">🏆 PODIUM JUARA SMP 19</h2>
+
+          <!-- Podium 1st, 2nd, 3rd visual -->
+          <div id="host-podium-bars" class="flex items-end justify-center gap-4 my-8 h-64">
+            <!-- Rendered dynamically -->
+          </div>
+
+          <button onclick="app.hostNextQuestion()" class="mt-6 px-8 py-3.5 rounded-xl font-bold bg-brand-purple hover:bg-brand-dark text-white shadow-lg text-base">
+            Lanjut Soal Berikutnya ➔
+          </button>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="no-print bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-1">
+      <p class="font-bold text-slate-700">SMART QUIZ SMP 19 PALEMBANG</p>
+      <p>Media Pembelajaran Interaktif Berbasis Game Kuis • Kurikulum Merdeka Fase D</p>
+      <p class="text-slate-400 text-[11px] pt-1">Dirancang untuk seluruh mata pelajaran di SMP Negeri 19 Palembang</p>
+    </div>
+  </footer>
+
+  <!-- ================= MODALS & DIALOGS ================= -->
+
+  <!-- Modal: Petunjuk & Bantuan Lengkap -->
+  <div id="modal-help" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-8 max-h-[90vh] overflow-y-auto shadow-2xl space-y-5">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+        <h3 class="text-xl font-black text-slate-800 flex items-center space-x-2">
+          <span>📖</span>
+          <span>Panduan Penggunaan SMART QUIZ</span>
+        </h3>
+        <button onclick="app.closeHelpModal()" class="text-slate-400 hover:text-slate-700 text-xl font-bold">✕</button>
+      </div>
+
+      <div class="text-xs sm:text-sm text-slate-600 space-y-4">
+        <div>
+          <h4 class="font-bold text-slate-800 text-sm">1. Bagi Siswa:</h4>
+          <ol class="list-decimal list-inside space-y-1 mt-1 pl-2">
+            <li>Klik tombol <strong>Masuk Siswa</strong> atau <strong>Main Demo</strong>.</li>
+            <li>Ketikkan <strong>Room PIN</strong> yang diberikan oleh guru.</li>
+            <li>Ketik nama panggilanmu dan pilih avatar karakter kesukaanmu.</li>
+            <li>Jawab setiap soal dengan cepat dan akurat untuk poin maksimal!</li>
+            <li>Di akhir kuis, isi lembar <strong>Refleksi Belajar</strong>.</li>
+          </ol>
+        </div>
+
+        <div>
+          <h4 class="font-bold text-slate-800 text-sm">2. Bagi Guru:</h4>
+          <ol class="list-decimal list-inside space-y-1 mt-1 pl-2">
+            <li>Buka <strong>Mode Guru</strong> untuk melihat dashboard asesmen dan bank soal.</li>
+            <li>Gunakan fitur <strong>Buat Kuis dengan AI</strong> untuk generate instan soal berbobot HOTS.</li>
+            <li>Klik <strong>Buat Room (Host)</strong> pada kuis untuk menampilkan layar presenter di proyektor kelas.</li>
+            <li>Siswa bergabung menggunakan Room PIN yang tertera di layar.</li>
+            <li>Hasil asesmen dapat diekspor ke Excel atau dicetak dengan kop resmi sekolah.</li>
+          </ol>
+        </div>
+
+        <div>
+          <h4 class="font-bold text-slate-800 text-sm">3. Kontrol Keyboard:</h4>
+          <p class="mt-1">Siswa dapat menekan tombol angka <kbd class="px-1.5 py-0.5 rounded bg-slate-100 border">1</kbd> <kbd class="px-1.5 py-0.5 rounded bg-slate-100 border">2</kbd> <kbd class="px-1.5 py-0.5 rounded bg-slate-100 border">3</kbd> <kbd class="px-1.5 py-0.5 rounded bg-slate-100 border">4</kbd> untuk memilih jawaban secara praktis.</p>
+        </div>
+      </div>
+
+      <button onclick="app.closeHelpModal()" class="w-full py-3 rounded-xl font-bold bg-brand-purple text-white text-sm hover:bg-brand-dark transition">
+        Saya Mengerti, Tutup Panduan
+      </button>
+    </div>
+  </div>
+
+  <!-- Modal: Tambah Mata Pelajaran Baru -->
+  <div id="modal-new-subject" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between pb-2 border-b border-slate-100">
+        <h3 class="text-lg font-black text-slate-800">Tambah Mata Pelajaran</h3>
+        <button onclick="app.closeNewSubjectModal()" class="text-slate-400 hover:text-slate-700 font-bold">✕</button>
+      </div>
+
+      <form onsubmit="app.handleCreateSubject(event)" class="space-y-3">
+        <div>
+          <label class="block text-xs font-bold text-slate-600 mb-1">Nama Mata Pelajaran</label>
+          <input type="text" id="custom-subject-name" required placeholder="Contoh: Robotika & IoT" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-xl outline-none focus:ring-2 focus:ring-purple-500">
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-600 mb-1">Ikon Emotikon</label>
+          <input type="text" id="custom-subject-icon" value="📚" maxlength="2" class="w-16 px-3 py-2 text-center text-lg border border-slate-300 rounded-xl outline-none">
+        </div>
+        <button type="submit" class="w-full py-3 rounded-xl font-bold bg-brand-purple text-white text-xs hover:bg-brand-dark transition">
+          Simpan Mata Pelajaran
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Buat Kuis Baru (Guru) -->
+  <div id="modal-new-quiz" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-8 max-h-[90vh] overflow-y-auto shadow-2xl space-y-4">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+        <h3 class="text-xl font-black text-slate-800">Buat Kuis Pembelajaran Baru</h3>
+        <button onclick="app.closeNewQuizModal()" class="text-slate-400 hover:text-slate-700 font-bold">✕</button>
+      </div>
+
+      <form onsubmit="app.handleSaveNewQuiz(event)" class="space-y-3.5">
+        <div>
+          <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Judul Kuis</label>
+          <input type="text" id="new-quiz-title" required placeholder="Contoh: IPA Kelas VIII - Sistem Pernapasan Manusia" class="w-full px-3.5 py-2 text-sm border border-slate-300 rounded-xl outline-none focus:ring-2 focus:ring-purple-500">
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Mata Pelajaran</label>
+            <select id="new-quiz-subject" class="w-full px-3 py-2 text-xs border border-slate-300 rounded-xl outline-none">
+              <!-- dynamically filled -->
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Kelas & Fase</label>
+            <select id="new-quiz-grade" class="w-full px-3 py-2 text-xs border border-slate-300 rounded-xl outline-none">
+              <option value="VII">Kelas VII (Fase D)</option>
+              <option value="VIII" selected>Kelas VIII (Fase D)</option>
+              <option value="IX">Kelas IX (Fase D)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Topik / Materi</label>
+            <input type="text" id="new-quiz-topic" required placeholder="Contoh: Struktur Paru-paru & Alveolus" class="w-full px-3.5 py-2 text-xs border border-slate-300 rounded-xl outline-none">
+          </div>
+          <div>
+            <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Kategori Asesmen</label>
+            <select id="new-quiz-assessment" class="w-full px-3 py-2 text-xs border border-slate-300 rounded-xl outline-none">
+              <option value="formatif">Asesmen Formatif</option>
+              <option value="diagnostik">Asesmen Diagnostik</option>
+              <option value="sumatif">Asesmen Sumatif</option>
+              <option value="latihan">Latihan Soal</option>
+              <option value="remedial">Remedial</option>
+              <option value="pengayaan">Pengayaan</option>
+              <option value="review">Review Materi</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Tujuan Pembelajaran (TP)</label>
+          <textarea id="new-quiz-tp" rows="2" placeholder="Contoh: Peserta didik dapat menganalisis mekanisme pertukaran gas O2 dan CO2 di alveolus..." class="w-full px-3.5 py-2 text-xs border border-slate-300 rounded-xl outline-none"></textarea>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div>
+            <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Mode Game</label>
+            <select id="new-quiz-mode" class="w-full px-3 py-2 text-xs border border-slate-300 rounded-xl outline-none">
+              <option value="classic">Classic Quiz</option>
+              <option value="team_battle">Team Battle</option>
+              <option value="race">Race (Balapan)</option>
+              <option value="survival">Survival</option>
+              <option value="streak">Streak Master</option>
+              <option value="relax">Relax Mode</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Waktu Tiap Soal</label>
+            <select id="new-quiz-duration" class="w-full px-3 py-2 text-xs border border-slate-300 rounded-xl outline-none">
+              <option value="10">10 Detik</option>
+              <option value="15">15 Detik</option>
+              <option value="20" selected>20 Detik</option>
+              <option value="30">30 Detik</option>
+              <option value="45">45 Detik</option>
+              <option value="60">60 Detik</option>
+              <option value="0">Tanpa Batas Waktu</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Tingkat Kesulitan</label>
+            <select id="new-quiz-diff" class="w-full px-3 py-2 text-xs border border-slate-300 rounded-xl outline-none">
+              <option value="mudah">Mudah</option>
+              <option value="sedang" selected>Sedang</option>
+              <option value="sulit">Sulit (HOTS)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Power Up Toggle -->
+        <div class="flex items-center space-x-2 pt-1">
+          <input type="checkbox" id="new-quiz-powerups" checked class="w-4 h-4 rounded text-purple-600">
+          <label for="new-quiz-powerups" class="text-xs font-semibold text-slate-700">Aktifkan Power-Up Permainan (50:50, Ekstra Waktu, 2x Poin, Hint)</label>
+        </div>
+
+        <button type="submit" class="w-full py-3.5 rounded-xl font-bold bg-brand-purple hover:bg-brand-dark text-white text-sm shadow transition">
+          Simpan Kuis & Masukkan Soal
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Tambah / Edit Butir Soal -->
+  <div id="modal-new-question" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-8 max-h-[90vh] overflow-y-auto shadow-2xl space-y-4">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+        <h3 class="text-xl font-black text-slate-800">Tambah Butir Soal ke Bank</h3>
+        <button onclick="app.closeNewQuestionModal()" class="text-slate-400 hover:text-slate-700 font-bold">✕</button>
+      </div>
+
+      <form onsubmit="app.handleSaveNewQuestion(event)" class="space-y-3.5">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Tipe Soal</label>
+            <select id="q-form-type" onchange="app.handleQuestionTypeChange()" class="w-full px-3 py-2 text-xs border border-slate-300 rounded-xl outline-none">
+              <option value="pilihan_ganda">Pilihan Ganda (4 Opsi)</option>
+              <option value="benar_salah">Benar / Salah</option>
+              <option value="kompleks">Pilihan Ganda Kompleks</option>
+              <option value="jawaban_singkat">Jawaban Singkat</option>
+              <option value="hots">HOTS (Analisis / Evaluasi)</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Mata Pelajaran</label>
+            <select id="q-form-subject" class="w-full px-3 py-2 text-xs border border-slate-300 rounded-xl outline-none">
+              <!-- dynamically filled -->
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Pertanyaan / Stimulus</label>
+          <textarea id="q-form-text" required rows="3" placeholder="Ketik pertanyaan kuis..." class="w-full px-3.5 py-2 text-xs border border-slate-300 rounded-xl outline-none focus:ring-2 focus:ring-purple-500"></textarea>
+        </div>
+
+        <!-- Options Container -->
+        <div id="q-form-options-wrapper" class="space-y-2">
+          <label class="block text-xs font-bold uppercase text-slate-600">Pilihan Jawaban (Beri tanda pada Kunci):</label>
+          <div class="space-y-2">
+            <div class="flex items-center space-x-2">
+              <input type="radio" name="q-correct-radio" value="0" checked class="w-4 h-4 text-purple-600">
+              <input type="text" id="q-opt-0" required placeholder="Pilihan A" class="flex-1 px-3 py-1.5 text-xs border border-slate-300 rounded-lg">
+            </div>
+            <div class="flex items-center space-x-2">
+              <input type="radio" name="q-correct-radio" value="1" class="w-4 h-4 text-purple-600">
+              <input type="text" id="q-opt-1" required placeholder="Pilihan B" class="flex-1 px-3 py-1.5 text-xs border border-slate-300 rounded-lg">
+            </div>
+            <div class="flex items-center space-x-2">
+              <input type="radio" name="q-correct-radio" value="2" class="w-4 h-4 text-purple-600">
+              <input type="text" id="q-opt-2" required placeholder="Pilihan C" class="flex-1 px-3 py-1.5 text-xs border border-slate-300 rounded-lg">
+            </div>
+            <div class="flex items-center space-x-2">
+              <input type="radio" name="q-correct-radio" value="3" class="w-4 h-4 text-purple-600">
+              <input type="text" id="q-opt-3" required placeholder="Pilihan D" class="flex-1 px-3 py-1.5 text-xs border border-slate-300 rounded-lg">
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Pembahasan Edukatif</label>
+          <textarea id="q-form-explanation" rows="2" placeholder="Jelaskan alasan jawaban yang benar..." class="w-full px-3.5 py-2 text-xs border border-slate-300 rounded-xl outline-none"></textarea>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Materi / Topik</label>
+            <input type="text" id="q-form-topic" placeholder="Contoh: Ekosistem" class="w-full px-3 py-2 text-xs border border-slate-300 rounded-xl outline-none">
+          </div>
+          <div>
+            <label class="block text-xs font-bold uppercase text-slate-600 mb-1">Tingkat Kesulitan</label>
+            <select id="q-form-diff" class="w-full px-3 py-2 text-xs border border-slate-300 rounded-xl outline-none">
+              <option value="mudah">Mudah</option>
+              <option value="sedang" selected>Sedang</option>
+              <option value="sulit">Sulit (HOTS)</option>
+            </select>
+          </div>
+        </div>
+
+        <button type="submit" class="w-full py-3.5 rounded-xl font-bold bg-brand-green hover:bg-green-700 text-white text-xs shadow transition">
+          Simpan ke Bank Soal
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Review Hasil AI Generator Sebelum Disimpan (Section W) -->
+  <div id="modal-ai-review" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-3xl w-full p-6 sm:p-8 max-h-[90vh] overflow-y-auto shadow-2xl space-y-4">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+        <div>
+          <h3 class="text-xl font-black text-slate-800 flex items-center space-x-2">
+            <span>✨</span>
+            <span>Review & Edit Soal Buatan AI</span>
+          </h3>
+          <p class="text-xs text-slate-500">Silakan periksa atau sesuaikan sebelum ditambahkan ke kuis</p>
+        </div>
+        <button onclick="app.closeAIReviewModal()" class="text-slate-400 hover:text-slate-700 font-bold">✕</button>
+      </div>
+
+      <div id="ai-review-questions-list" class="space-y-4">
+        <!-- Rendered dynamically with editable fields -->
+      </div>
+
+      <div class="flex gap-3 pt-3 border-t border-slate-100">
+        <button onclick="app.saveAIQuestionsToNewQuiz()" class="flex-1 py-3.5 rounded-xl font-black bg-brand-purple hover:bg-brand-dark text-white text-xs shadow transition">
+          ➕ Buat Kuis Baru dari Soal Ini
+        </button>
+        <button onclick="app.saveAIQuestionsToBank()" class="flex-1 py-3.5 rounded-xl font-bold bg-brand-green hover:bg-green-700 text-white text-xs shadow transition">
+          💾 Simpan Semua ke Bank Soal
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Editor & Pembuat Soal Kuis Mandiri -->
+  <div id="modal-quiz-editor" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-4xl w-full p-6 sm:p-8 max-h-[92vh] overflow-y-auto shadow-2xl space-y-5">
+      
+      <!-- Header Editor -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-slate-100 gap-3">
+        <div>
+          <div class="flex items-center space-x-2">
+            <span class="text-2xl">✏️</span>
+            <h3 class="text-xl font-black text-slate-800">Kelola & Buat Soal Kuis Mandiri</h3>
+          </div>
+          <div id="quiz-editor-meta" class="text-xs text-slate-500 font-semibold mt-1">
+            Kuis: <span id="editor-meta-title" class="text-brand-purple font-bold">-</span> • <span id="editor-meta-subject">-</span> • Kelas <span id="editor-meta-grade">-</span>
+          </div>
+        </div>
+        <div class="flex items-center space-x-2">
+          <span id="editor-meta-count-badge" class="px-3 py-1 rounded-full bg-purple-100 text-brand-purple text-xs font-black">0 Soal</span>
+          <button onclick="app.closeQuizEditor()" class="p-1 text-slate-400 hover:text-slate-700 font-bold text-xl">✕</button>
+        </div>
+      </div>
+
+      <!-- Mode Selector Tabs for Adding Questions -->
+      <div class="bg-slate-100 p-1.5 rounded-2xl flex space-x-2 text-xs font-bold">
+        <button id="tab-btn-editor-quick" onclick="app.switchQuizEditorTab('quick')" class="flex-1 py-2.5 rounded-xl bg-white text-brand-purple shadow-sm transition flex items-center justify-center space-x-1.5">
+          <span>⚡</span>
+          <span>Format Teks Cepat (Copy-Paste / RPP)</span>
+        </button>
+        <button id="tab-btn-editor-form" onclick="app.switchQuizEditorTab('form')" class="flex-1 py-2.5 rounded-xl text-slate-600 hover:text-brand-purple transition flex items-center justify-center space-x-1.5">
+          <span>📝</span>
+          <span>Formulir Tambah Soal Mandiri</span>
+        </button>
+      </div>
+
+      <!-- TAB A: QUICK TEXT FORMAT BUILDER -->
+      <div id="editor-panel-quick" class="space-y-3 p-4 bg-purple-50/50 rounded-2xl border border-purple-100">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <div>
+            <h4 class="font-bold text-xs text-brand-purple uppercase tracking-wider">Format Penulisan Soal Mandiri:</h4>
+            <p class="text-[11px] text-slate-500">Tulis atau salin beberapa soal sekaligus dalam format standar di bawah ini.</p>
+          </div>
+          <button type="button" onclick="app.fillQuickTextSample()" class="px-3 py-1.5 text-xs font-bold bg-white hover:bg-purple-100 text-brand-purple border border-purple-200 rounded-xl transition shadow-sm">
+            📋 Salin Format Contoh Soal
+          </button>
+        </div>
+
+        <textarea 
+          id="editor-quick-text-input" 
+          rows="7" 
+          placeholder="Contoh Format:
+1. Organ ekskresi pada manusia yang bertugas menyaring darah dan menghasilkan urine adalah...
+A. Hati
+B. Ginjal
+C. Paru-paru
+D. Kulit
+Kunci: B
+Pembahasan: Ginjal berfungsi menyaring zat sisa metabolisme darah dan menghasilkan urine.
+
+2. Pertanyaan kedua di sini...
+A. Opsi A
+B. Opsi B
+C. Opsi C
+D. Opsi D
+Kunci: A
+Pembahasan: Penjelasan materi..."
+          class="w-full p-3.5 text-xs font-mono bg-white border border-slate-300 rounded-xl outline-none focus:ring-2 focus:ring-purple-500 text-slate-800"
+        ></textarea>
+
+        <div class="flex justify-end">
+          <button type="button" onclick="app.handleInsertQuickTextQuestions()" class="px-5 py-2.5 rounded-xl font-bold bg-brand-purple hover:bg-brand-dark text-white text-xs shadow transition flex items-center space-x-1.5">
+            <span>➕</span>
+            <span>Konversi & Masukkan Soal ke Kuis Ini</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- TAB B: FORM BUILDER -->
+      <div id="editor-panel-form" class="hidden space-y-3.5 p-4 bg-slate-50 rounded-2xl border border-slate-200">
+        <form onsubmit="app.handleSaveQuestionFromEditorForm(event)" class="space-y-3">
+          
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div>
+              <label class="block text-[11px] font-bold uppercase text-slate-600 mb-1">Tipe Soal</label>
+              <select id="editor-form-type" onchange="app.handleEditorFormTypeChange()" class="w-full px-3 py-2 text-xs border border-slate-300 rounded-xl outline-none">
+                <option value="pilihan_ganda">Pilihan Ganda (4 Opsi)</option>
+                <option value="benar_salah">Benar / Salah</option>
+                <option value="kompleks">Pilihan Ganda Kompleks</option>
+                <option value="jawaban_singkat">Jawaban Singkat</option>
+                <option value="hots">Soal HOTS (Analisis)</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-[11px] font-bold uppercase text-slate-600 mb-1">Level Kognitif Bloom</label>
+              <select id="editor-form-level" class="w-full px-3 py-2 text-xs border border-slate-300 rounded-xl outline-none">
+                <option value="C2 - Pemahaman">C2 - Pemahaman Konsep</option>
+                <option value="C3 - Aplikasi" selected>C3 - Aplikasi Kontekstual</option>
+                <option value="C4 - Analisis">C4 - Analisis (HOTS)</option>
+                <option value="C5 - Evaluasi">C5 - Evaluasi Kritis (HOTS)</option>
+                <option value="C6 - Kreasi">C6 - Kreasi & Solusi (HOTS)</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-[11px] font-bold uppercase text-slate-600 mb-1">Bobot Nilai</label>
+              <input type="number" id="editor-form-weight" value="100" min="10" max="1000" class="w-full px-3 py-2 text-xs border border-slate-300 rounded-xl outline-none">
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-[11px] font-bold uppercase text-slate-600 mb-1">Pertanyaan / Stimulus</label>
+            <textarea id="editor-form-text" required rows="2" placeholder="Tuliskan pertanyaan soal kuis..." class="w-full p-2.5 text-xs border border-slate-300 rounded-xl outline-none focus:ring-2 focus:ring-purple-500"></textarea>
+          </div>
+
+          <!-- Options Container -->
+          <div id="editor-form-options-container" class="space-y-2">
+            <label class="block text-[11px] font-bold uppercase text-slate-600">Pilihan Jawaban (Pilih Radio untuk Kunci):</label>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <div class="flex items-center space-x-2 p-2 bg-white rounded-xl border border-slate-200">
+                <input type="radio" name="editor-correct-radio" value="0" checked class="w-4 h-4 text-purple-600">
+                <input type="text" id="editor-opt-0" required placeholder="Pilihan A" class="w-full text-xs outline-none">
+              </div>
+              <div class="flex items-center space-x-2 p-2 bg-white rounded-xl border border-slate-200">
+                <input type="radio" name="editor-correct-radio" value="1" class="w-4 h-4 text-purple-600">
+                <input type="text" id="editor-opt-1" required placeholder="Pilihan B" class="w-full text-xs outline-none">
+              </div>
+              <div class="flex items-center space-x-2 p-2 bg-white rounded-xl border border-slate-200">
+                <input type="radio" name="editor-correct-radio" value="2" class="w-4 h-4 text-purple-600">
+                <input type="text" id="editor-opt-2" required placeholder="Pilihan C" class="w-full text-xs outline-none">
+              </div>
+              <div class="flex items-center space-x-2 p-2 bg-white rounded-xl border border-slate-200">
+                <input type="radio" name="editor-correct-radio" value="3" class="w-4 h-4 text-purple-600">
+                <input type="text" id="editor-opt-3" required placeholder="Pilihan D" class="w-full text-xs outline-none">
+              </div>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="block text-[11px] font-bold uppercase text-slate-600 mb-1">Pembahasan Edukatif</label>
+              <textarea id="editor-form-exp" rows="2" placeholder="Penjelasan jawaban yang benar..." class="w-full p-2 text-xs border border-slate-300 rounded-xl outline-none"></textarea>
+            </div>
+            <div>
+              <label class="block text-[11px] font-bold uppercase text-slate-600 mb-1">Tujuan Pembelajaran (TP) / Petunjuk</label>
+              <textarea id="editor-form-tp" rows="2" placeholder="TP yang diukur pada butir ini..." class="w-full p-2 text-xs border border-slate-300 rounded-xl outline-none"></textarea>
+            </div>
+          </div>
+
+          <div class="flex justify-end">
+            <button type="submit" class="px-6 py-2.5 rounded-xl font-bold bg-brand-green hover:bg-green-700 text-white text-xs shadow transition">
+              💾 Simpan Butir Soal ke Kuis Ini
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Section: Existing Questions in This Quiz -->
+      <div class="space-y-3 pt-2">
+        <div class="flex items-center justify-between pb-1 border-b border-slate-100">
+          <h4 class="font-black text-sm text-slate-800">Daftar Soal di Kuis Ini</h4>
+          <span id="editor-questions-summary" class="text-xs text-slate-500 font-semibold">Total: 0 Soal</span>
+        </div>
+
+        <div id="editor-questions-list" class="space-y-2.5 max-h-72 overflow-y-auto pr-1">
+          <!-- Rendered dynamically -->
+        </div>
+      </div>
+
+      <div class="flex justify-between items-center pt-3 border-t border-slate-100">
+        <button onclick="app.closeQuizEditor()" class="px-4 py-2.5 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-100 transition">
+          Selesai & Tutup
+        </button>
+        <button onclick="app.saveAndHostCurrentEditedQuiz()" class="px-5 py-2.5 rounded-xl font-bold bg-brand-purple hover:bg-brand-dark text-white text-xs shadow transition flex items-center space-x-1.5">
+          <span>📺</span>
+          <span>Mainkan Kuis Ini di Kelas (Host)</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Modal: Edit Butir Soal Satuan -->
+  <div id="modal-single-question-edit" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-8 max-h-[90vh] overflow-y-auto shadow-2xl space-y-4">
+      <div class="flex items-center justify-between pb-2 border-b border-slate-100">
+        <h3 class="text-lg font-black text-slate-800">Edit Butir Soal</h3>
+        <button onclick="app.closeSingleQuestionEditModal()" class="text-slate-400 hover:text-slate-700 font-bold">✕</button>
+      </div>
+
+      <form onsubmit="app.handleSaveSingleQuestionEdit(event)" class="space-y-3">
+        <div>
+          <label class="block text-[11px] font-bold uppercase text-slate-600 mb-1">Pertanyaan</label>
+          <textarea id="edit-single-q-text" required rows="3" class="w-full p-2.5 text-xs border border-slate-300 rounded-xl outline-none focus:ring-2 focus:ring-purple-500"></textarea>
+        </div>
+
+        <div id="edit-single-options-wrapper" class="space-y-2">
+          <label class="block text-[11px] font-bold uppercase text-slate-600">Pilihan Jawaban & Kunci:</label>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <div class="flex items-center space-x-2 p-2 bg-slate-50 rounded-xl border border-slate-200">
+              <input type="radio" name="edit-single-correct" value="0" id="edit-single-rad-0" class="w-4 h-4 text-purple-600">
+              <input type="text" id="edit-single-opt-0" class="w-full text-xs outline-none bg-transparent">
+            </div>
+            <div class="flex items-center space-x-2 p-2 bg-slate-50 rounded-xl border border-slate-200">
+              <input type="radio" name="edit-single-correct" value="1" id="edit-single-rad-1" class="w-4 h-4 text-purple-600">
+              <input type="text" id="edit-single-opt-1" class="w-full text-xs outline-none bg-transparent">
+            </div>
+            <div class="flex items-center space-x-2 p-2 bg-slate-50 rounded-xl border border-slate-200">
+              <input type="radio" name="edit-single-correct" value="2" id="edit-single-rad-2" class="w-4 h-4 text-purple-600">
+              <input type="text" id="edit-single-opt-2" class="w-full text-xs outline-none bg-transparent">
+            </div>
+            <div class="flex items-center space-x-2 p-2 bg-slate-50 rounded-xl border border-slate-200">
+              <input type="radio" name="edit-single-correct" value="3" id="edit-single-rad-3" class="w-4 h-4 text-purple-600">
+              <input type="text" id="edit-single-opt-3" class="w-full text-xs outline-none bg-transparent">
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-[11px] font-bold uppercase text-slate-600 mb-1">Pembahasan</label>
+          <textarea id="edit-single-q-exp" rows="2" class="w-full p-2 text-xs border border-slate-300 rounded-xl outline-none"></textarea>
+        </div>
+
+        <div class="flex justify-end space-x-2 pt-2">
+          <button type="button" onclick="app.closeSingleQuestionEditModal()" class="px-4 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-100 rounded-xl">Batal</button>
+          <button type="submit" class="px-5 py-2 text-xs font-bold bg-brand-purple hover:bg-brand-dark text-white rounded-xl shadow transition">Simpan Perubahan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Printable Letterhead Report (Hidden unless window.print is called) -->
+  <div id="print-official-report" class="print-only hidden p-8 bg-white text-black font-serif">
+    <div class="text-center border-b-4 border-double border-black pb-4 mb-6">
+      <h3 class="text-base font-bold tracking-wide uppercase">PEMERINTAH KOTA PALEMBANG</h3>
+      <h3 class="text-base font-bold tracking-wide uppercase">DINAS PENDIDIKAN</h3>
+      <h2 class="text-xl font-black tracking-wider uppercase mt-1">SMP NEGERI 19 PALEMBANG</h2>
+      <p class="text-xs italic mt-0.5">Jalan Srijaya Negara, Palembang, Sumatera Selatan</p>
+    </div>
+
+    <div class="text-center mb-6">
+      <h3 class="text-base font-bold underline uppercase">LAPORAN HASIL ASESMEN PEMBELAJARAN INTERAKTIF</h3>
+      <p id="print-doc-meta" class="text-xs mt-1">Media: SMART QUIZ SMP 19 PALEMBANG</p>
+    </div>
+
+    <div id="print-report-content" class="text-xs space-y-4 font-sans">
+      <!-- Injected before printing -->
+    </div>
+
+    <div class="grid grid-cols-2 mt-12 text-xs font-sans">
+      <div></div>
+      <div class="text-center space-y-16">
+        <p>Palembang, <span id="print-current-date"></span><br>Guru Mata Pelajaran,</p>
+        <p class="font-bold underline">( Guru Pengampu SMPN 19 )<br><span class="font-normal text-[10px]">NIP. .................................................</span></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main JavaScript App Controller -->
+  <script src="js/audio.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/room-channel.js"></script>
+  <script src="js/ai-generator.js"></script>
+  <script src="js/app.js"></script>
+
+</body>
+</html>
